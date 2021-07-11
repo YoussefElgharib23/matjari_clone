@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All your products{% endblock %}
+
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('app_product_create') }}">Create new product</a>
+
+    <table border="1" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}">Edit product</a>
+                        <a href="{{ path('app_product_delete', {'id': product.id}) }}" class="_delete_product_link" data-form="form_product_{{ product.id }}">Delete product</a>
+
+                        <form action="{{ path('app_product_delete', {'id': product.id}) }}" method="POST" id="form_product_{{ product.id }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_product_id_' ~ product.id) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

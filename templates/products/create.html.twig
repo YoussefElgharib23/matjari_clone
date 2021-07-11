@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ label is defined ? 'Edit the' : 'Create new' }} product{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <input type="submit" value="{{ label ?? 'Save' }} the product">
+    {{ form_end(form) }}
+
+{% endblock %}
